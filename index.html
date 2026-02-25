@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alif Satria | Creative Developer</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -22,6 +23,7 @@
                         'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 3s ease-in-out infinite',
                         'marquee': 'marquee 25s linear infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -31,6 +33,10 @@
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
                             '100%': { transform: 'translateX(-50%)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
                         }
                     }
                 }
@@ -39,21 +45,22 @@
     </script>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #030303;
             color: #ffffff;
             overflow-x: hidden;
-            /* Sembunyikan cursor bawaan di perangkat besar untuk custom cursor */
-            cursor: none; 
+            cursor: none;
         }
 
         @media (max-width: 768px) {
-            body { cursor: auto; } /* Kembalikan cursor di mobile */
+            body {
+                cursor: auto;
+            }
         }
 
         /* Custom Cursor */
@@ -68,10 +75,11 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        background-color 0.3s, border-color 0.3s;
+            transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s, border-color 0.3s;
         }
+
         .cursor-hover {
             width: 60px;
             height: 60px;
@@ -80,176 +88,537 @@
             backdrop-filter: blur(2px);
         }
 
-        /* Interactive Ambient Glow */
+        /* Ambient Glow */
         #ambient-glow {
             transition: transform 0.8s ease-out;
         }
 
-        /* Perbaikan Bug Reveal */
-        .reveal-container { position: relative; display: inline-block; }
-        .reveal-text { color: rgba(255, 255, 255, 0.1); transition: color 0.5s ease; }
+        /* Reveal Text */
+        .reveal-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .reveal-text {
+            color: rgba(255, 255, 255, 0.08);
+            transition: color 0.5s ease;
+        }
+
         .reveal-overlay {
-            position: absolute; top: 0; left: 0; width: 0; height: 100%; color: white;
-            overflow: hidden; white-space: nowrap; transition: width 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: width 0.7s cubic-bezier(0.77, 0, 0.175, 1);
             border-right: 3px solid #3b82f6;
         }
-        .reveal-container:hover .reveal-overlay { width: 100%; }
 
-        /* Nav Floating Style */
+        .reveal-container:hover .reveal-overlay {
+            width: 100%;
+        }
+
+        /* Nav Floating */
         .nav-scrolled {
-            top: 20px; width: 90%; max-width: 600px; border-radius: 999px;
-            background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            top: 16px !important;
+            width: 88% !important;
+            max-width: 640px !important;
+            border-radius: 999px !important;
+            background: rgba(10, 10, 10, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(20px) !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
         }
 
         /* Glass Card */
         .glass-card {
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Interactive Path/Timeline */
+        /* Timeline */
         .timeline-container::before {
-            content: ''; position: absolute; top: 0; left: 24px; height: 100%; width: 2px;
-            background: linear-gradient(to bottom, transparent, #3b82f6 15%, #3b82f6 85%, transparent); opacity: 0.3;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 24px;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #3b82f6 15%, #3b82f6 85%, transparent);
+            opacity: 0.3;
         }
-        @media (min-width: 768px) { .timeline-container::before { left: 50%; transform: translateX(-50%); } }
-        .timeline-dot { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .timeline-item:hover .timeline-dot { transform: scale(1.5); background: #fff; box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
 
-        /* 3D Interactive Project Card */
-        .project-card { perspective: 1000px; }
-        .project-card-inner { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s; transform-style: preserve-3d; }
-        .project-card:hover .project-card-inner { transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); box-shadow: 0 30px 60px -15px rgba(59, 130, 246, 0.3); border-color: rgba(59, 130, 246, 0.4); }
-        .project-card-hover-wrapper { transition: transform 0.5s ease; }
-        .project-content-reveal { opacity: 0; max-height: 0; transform: translateY(20px); transition: all 0.5s ease; overflow: hidden; }
-        .project-card:hover .project-card-hover-wrapper { transform: translateY(-10px); }
-        .project-card:hover .project-content-reveal { opacity: 1; max-height: 200px; transform: translateY(0); margin-top: 1rem; }
+        @media (min-width: 768px) {
+            .timeline-container::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
 
-        /* Infinite Marquee */
+        .timeline-dot {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.5);
+            background: #fff;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+        }
+
+        /* === PREMIUM PROJECT CARDS === */
+        .proj-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #0D0D0D;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                border-color 0.5s;
+            cursor: pointer;
+        }
+
+        .proj-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        /* Shimmer border on hover */
+        .proj-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(120deg, transparent 30%, rgba(59, 130, 246, 0.6) 50%, transparent 70%);
+            background-size: 200% 100%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .proj-card:hover::before {
+            opacity: 1;
+            animation: shimmer 2.5s linear infinite;
+        }
+
+        /* Project image */
+        .proj-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), filter 0.5s;
+            filter: brightness(0.55) saturate(0.7);
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .proj-card:hover .proj-img {
+            transform: scale(1.06);
+            filter: brightness(0.75) saturate(1);
+        }
+
+        /* Project card large decorative number */
+        .proj-num {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            font-size: 7rem;
+            font-weight: 900;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -0.05em;
+            transition: color 0.4s;
+        }
+
+        .proj-card:hover .proj-num {
+            color: rgba(59, 130, 246, 0.06);
+        }
+
+        /* Tech badge */
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .proj-card:hover .tech-badge {
+            background: rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Content reveal */
+        .proj-desc {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: max-height 0.5s ease, opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+        }
+
+        .proj-card:hover .proj-desc {
+            max-height: 200px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CTA btn inside card */
+        .proj-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+        }
+
+        .proj-cta-btn:hover {
+            background: #3b82f6;
+            color: #fff;
+            transform: scale(1.04);
+        }
+
+        .proj-cta-btn.outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .proj-cta-btn.outline:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Marquee */
         .marquee-wrapper {
-            position: relative; width: 100%; overflow: hidden; white-space: nowrap;
-            display: flex; align-items: center; padding: 2rem 0;
-            border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: rgba(255,255,255,0.01);
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.01);
         }
-        .marquee-wrapper::before, .marquee-wrapper::after {
-            content: ''; position: absolute; top: 0; width: 150px; height: 100%; z-index: 2;
+
+        .marquee-wrapper::before,
+        .marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
         }
-        .marquee-wrapper::before { left: 0; background: linear-gradient(to right, #030303, transparent); }
-        .marquee-wrapper::after { right: 0; background: linear-gradient(to left, #030303, transparent); }
-        .marquee-content { display: inline-flex; width: max-content; }
 
-        /* Magnetic Button */
-        .magnetic-btn { transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
+        .marquee-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, #030303, transparent);
+        }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        .marquee-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, #030303, transparent);
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            width: max-content;
+        }
+
+        /* Magnetic */
+        .magnetic-btn {
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Language toggle */
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            border-color: rgba(59, 130, 246, 0.5);
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        /* Chat input focus */
+        .chat-input:focus {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(3, 3, 3, 1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
     </style>
 </head>
+
 <body class="selection:bg-blue-500 selection:text-white">
 
     <!-- Custom Cursor -->
     <div class="custom-cursor hidden md:block" id="cursor"></div>
 
-    <!-- Ambient Glow (Sekarang mengikuti mouse) -->
+    <!-- Ambient Glow -->
     <div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
-        <div id="ambient-glow" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] flex justify-center items-center">
-            <div class="w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[120px] absolute -left-20"></div>
-            <div class="w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px] absolute -right-20"></div>
+        <div id="ambient-glow"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] flex justify-center items-center">
+            <div class="w-[500px] h-[500px] bg-blue-600/[0.07] rounded-full blur-[140px] absolute -left-24"></div>
+            <div class="w-[500px] h-[500px] bg-purple-600/[0.07] rounded-full blur-[140px] absolute -right-24"></div>
         </div>
     </div>
 
     <!-- WhatsApp Floating -->
-    <a href="https://wa.me/6281234567890" target="_blank" class="hover-trigger fixed bottom-8 right-8 z-[100] bg-white text-black p-4 rounded-full shadow-2xl hover:bg-blue-500 hover:text-white transition-all animate-float">
+    <a href="https://wa.me/6281234567890" target="_blank"
+        class="hover-trigger fixed bottom-8 right-8 z-[100] bg-white text-black p-4 rounded-full shadow-2xl hover:bg-blue-500 hover:text-white transition-all animate-float">
         <i data-lucide="message-circle" class="w-6 h-6"></i>
     </a>
 
-    <!-- Navbar -->
-    <header class="fixed top-0 left-1/2 -translate-x-1/2 w-full z-50 transition-all duration-700 flex justify-center py-6" id="main-nav">
-        <nav class="flex items-center justify-between w-full max-w-7xl px-8 transition-all duration-500">
-            <a href="#home" class="hover-trigger font-black text-2xl tracking-tighter">Alif.<span class="text-blue-500">.</span></a>
+    <!-- ===== NAVBAR ===== -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-center py-5 transition-all duration-500" id="main-nav">
+        <nav class="flex items-center justify-between w-full max-w-7xl px-8 transition-all duration-500" id="nav-inner">
+            <!-- Logo -->
+            <a href="#home" class="hover-trigger font-black text-2xl tracking-tighter flex-shrink-0">Alif.<span
+                    class="text-blue-500">.</span></a>
+
+            <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-8 text-[10px] uppercase tracking-[0.3em] font-bold">
-                <a href="#about" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors">Info</a>
-                <a href="#experience" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors">Karir</a>
-                <a href="#projects" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors">Karya</a>
-                <a href="#contact" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors">Kontak</a>
+                <a href="#about" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors"
+                    data-i18n="nav_info">Info</a>
+                <a href="#experience" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors"
+                    data-i18n="nav_career">Karir</a>
+                <a href="#projects" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors"
+                    data-i18n="nav_works">Karya</a>
+                <a href="#contact" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors"
+                    data-i18n="nav_contact">Kontak</a>
             </div>
-            <button class="hover-trigger px-6 py-2 bg-white text-black text-[10px] uppercase tracking-widest font-black hover:bg-blue-500 hover:text-white transition-all rounded-full">
-                Resume
-            </button>
+
+            <!-- Right controls -->
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <!-- Language Toggle -->
+                <button class="lang-btn hover-trigger" id="lang-toggle" onclick="toggleLang()">
+                    <i data-lucide="globe" class="w-3 h-3"></i>
+                    <span id="lang-label">EN</span>
+                </button>
+                <!-- Resume Button -->
+                <button
+                    class="hover-trigger px-6 py-2.5 bg-white text-black text-[10px] uppercase tracking-widest font-black hover:bg-blue-500 hover:text-white transition-all rounded-full"
+                    data-i18n="nav_resume">
+                    Resume
+                </button>
+            </div>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto px-6">
-        
-        <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex flex-col justify-center relative overflow-hidden">
+
+        <!-- ===== HERO SECTION ===== -->
+        <section id="home" class="min-h-screen flex flex-col justify-center relative overflow-hidden pt-32">
             <div class="z-10" data-aos="fade-up">
-                <p class="text-blue-500 font-mono text-sm mb-6 tracking-widest" data-aos="fade-right" data-aos-delay="200">// Creative Developer & Software Engineer</p>
-                <h1 class="text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.8] mb-12">
+                <p class="text-blue-500 font-mono text-sm mb-6 tracking-widest" data-aos="fade-right"
+                    data-aos-delay="200" data-i18n="hero_sub">// Creative Developer &amp; Software Engineer</p>
+                <h1 class="text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.85] mb-14">
                     <div class="hover-trigger reveal-container block">
                         <span class="reveal-text">CREATIVE</span>
                         <div class="reveal-overlay">CREATIVE</div>
                     </div>
-                    <br>
-                    <div class="hover-trigger reveal-container block">
+                    <div class="hover-trigger reveal-container block mt-2">
                         <span class="reveal-text">DEVELOPER</span>
                         <div class="reveal-overlay">DEVELOPER</div>
                     </div>
                 </h1>
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                    <p class="text-gray-500 text-lg md:text-xl max-w-xl font-medium">
-                        Membangun solusi digital berkinerja tinggi dengan fokus pada pengalaman pengguna yang tak terlupakan.
+                    <p class="text-gray-500 text-lg md:text-xl max-w-xl font-medium leading-relaxed"
+                        data-i18n="hero_desc">
+                        Membangun solusi digital berkinerja tinggi dengan fokus pada pengalaman pengguna yang tak
+                        terlupakan.
                     </p>
-                    <a href="#projects" class="hover-trigger group flex items-center space-x-6">
-                        <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-blue-500 transition-all">
+                    <a href="#projects" class="hover-trigger group flex items-center space-x-5">
+                        <div
+                            class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-blue-500 group-hover:bg-blue-500/10 transition-all duration-300">
                             <i data-lucide="arrow-down" class="w-5 h-5 group-hover:text-blue-500 transition-all"></i>
                         </div>
-                        <span class="text-xs uppercase tracking-widest font-black">Scroll ke bawah</span>
+                        <span class="text-xs uppercase tracking-widest font-black" data-i18n="hero_scroll">Scroll ke
+                            bawah</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- About & Skills Section -->
+        <!-- ===== ABOUT SECTION ===== -->
         <section id="about" class="py-32 border-t border-white/5">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                <div class="lg:col-span-5 relative hover-trigger" data-aos="zoom-in">
-                    <div class="w-64 h-80 mx-auto relative group">
-                        <div class="absolute inset-0 border border-blue-500 translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform"></div>
-                        <div class="absolute inset-0 bg-card overflow-hidden border border-white/10">
-                            <img src="alip.JPG" 
-                                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" alt="Me">
+
+                <!-- ── Photo Column ── -->
+                <div class="lg:col-span-5 relative hover-trigger flex flex-col items-center gap-8" data-aos="zoom-in">
+                    <!-- Glow ring + photo -->
+                    <div class="relative group w-full max-w-xs mx-auto">
+                        <!-- Spinning gradient ring -->
+                        <div
+                            class="absolute -inset-2 rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-blue-400 opacity-30 blur-md group-hover:opacity-60 transition-opacity duration-700 animate-pulse-slow">
                         </div>
-                        <div class="absolute -bottom-4 -left-4 bg-blue-600 p-4 rounded-full animate-float shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-                            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                        <!-- Offset frame -->
+                        <div
+                            class="absolute inset-0 border-2 border-blue-500/50 rounded-3xl translate-x-3 translate-y-3 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500">
+                        </div>
+                        <!-- Photo -->
+                        <div class="relative rounded-3xl overflow-hidden border border-white/10 aspect-[3/4] w-full">
+                            <img src="alip.JPG"
+                                class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                                alt="Alif Satria" style="image-rendering:-webkit-optimize-contrast;">
+                            <!-- Inner gradient overlay -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-[#030303]/60 via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <!-- Badge zap -->
+                        <div
+                            class="absolute -bottom-4 -right-4 bg-blue-600 p-4 rounded-2xl animate-float shadow-[0_0_30px_rgba(59,130,246,0.6)]">
+                            <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <!-- Badge availability -->
+                        <div
+                            class="absolute -top-4 -left-4 bg-[#0a0a0a] border border-green-500/30 px-3 py-2 rounded-xl flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-green-400">Open to
+                                Work</span>
+                        </div>
+                    </div>
+
+                    <!-- Animated mini stats -->
+                    <div class="grid grid-cols-3 gap-3 w-full max-w-xs mx-auto">
+                        <div
+                            class="glass-card rounded-2xl p-3 text-center border border-white/5 hover:border-blue-500/30 transition-all">
+                            <div class="text-2xl font-black text-blue-400 counter" data-target="10">0</div>
+                            <div class="text-[9px] uppercase tracking-widest text-gray-500 font-bold mt-0.5"
+                                data-i18n="stat_projects">Proyek</div>
+                        </div>
+                        <div
+                            class="glass-card rounded-2xl p-3 text-center border border-white/5 hover:border-purple-500/30 transition-all">
+                            <div class="text-2xl font-black text-purple-400 counter" data-target="3">0</div>
+                            <div class="text-[9px] uppercase tracking-widest text-gray-500 font-bold mt-0.5"
+                                data-i18n="stat_years">Tahun</div>
+                        </div>
+                        <div
+                            class="glass-card rounded-2xl p-3 text-center border border-white/5 hover:border-emerald-500/30 transition-all">
+                            <div class="text-2xl font-black text-emerald-400 counter" data-target="6">0</div>
+                            <div class="text-[9px] uppercase tracking-widest text-gray-500 font-bold mt-0.5"
+                                data-i18n="stat_clients">Klien</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- ── Text Column ── -->
                 <div class="lg:col-span-7" data-aos="fade-left">
-                    <h2 class="text-xs uppercase tracking-[0.5em] text-blue-500 font-black mb-6">Tentang Saya</h2>
-                    <h3 class="text-4xl md:text-5xl font-black mb-8 tracking-tighter hover-trigger cursor-default">Teknologi Bertemu Estetika.</h3>
-                    <p class="text-gray-400 text-lg leading-relaxed mb-12">
-                        Saya berspesialisasi dalam membangun aplikasi web dan mobile modern. Menggabungkan logika *backend* yang kuat dengan antarmuka yang sangat interaktif dan responsif.
+                    <h2 class="text-xs uppercase tracking-[0.5em] text-blue-500 font-black mb-6"
+                        data-i18n="about_label">Tentang Saya</h2>
+                    <h3 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter hover-trigger cursor-default"
+                        data-i18n="about_title">Teknologi Bertemu Estetika.</h3>
+                    <!-- Typewriter tagline -->
+                    <p class="font-mono text-blue-400 text-sm mb-6">// <span id="typewriter-text"></span><span
+                            class="animate-pulse">|</span></p>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-10" data-i18n="about_desc">
+                        Saya berspesialisasi dalam membangun aplikasi web dan mobile modern. Menggabungkan logika
+                        backend yang kuat dengan antarmuka yang sangat interaktif dan responsif.
                     </p>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500 transition-all group">
-                            <i data-lucide="layout" class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform"></i>
+
+                    <!-- Fun fact pills -->
+                    <div class="flex flex-wrap gap-2 mb-10">
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-300 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest"><i
+                                data-lucide="coffee" class="w-3 h-3"></i> Coffee addict</span>
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest"><i
+                                data-lucide="moon" class="w-3 h-3"></i> Night coder</span>
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest"><i
+                                data-lucide="rocket" class="w-3 h-3"></i> Fast learner</span>
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-300 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest"><i
+                                data-lucide="palette" class="w-3 h-3"></i> Design-first</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div
+                            class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500/50 transition-all group">
+                            <i data-lucide="layout"
+                                class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform flex-shrink-0"></i>
                             <span class="text-xs font-bold">LARAVEL</span>
                         </div>
-                        <div class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500 transition-all group">
-                            <i data-lucide="smartphone" class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform"></i>
+                        <div
+                            class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500/50 transition-all group">
+                            <i data-lucide="smartphone"
+                                class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform flex-shrink-0"></i>
                             <span class="text-xs font-bold">FLUTTER</span>
                         </div>
-                        <div class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500 transition-all group">
-                            <i data-lucide="database" class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform"></i>
+                        <div
+                            class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500/50 transition-all group">
+                            <i data-lucide="database"
+                                class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform flex-shrink-0"></i>
                             <span class="text-xs font-bold">DATABASE</span>
                         </div>
-                        <div class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500 transition-all group">
-                            <i data-lucide="wind" class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform"></i>
+                        <div
+                            class="hover-trigger glass-card p-4 rounded-xl flex items-center space-x-3 hover:border-blue-500/50 transition-all group">
+                            <i data-lucide="wind"
+                                class="w-5 h-5 text-blue-500 group-hover:scale-125 transition-transform flex-shrink-0"></i>
                             <span class="text-xs font-bold">TAILWIND</span>
                         </div>
                     </div>
@@ -259,215 +628,650 @@
 
     </main>
 
-    <!-- Infinite Tech Marquee Section -->
+    <!-- ===== MARQUEE ===== -->
     <section class="marquee-wrapper">
-        <div class="marquee-content animate-marquee text-4xl md:text-6xl font-black tracking-tighter text-white/10 uppercase">
+        <div
+            class="marquee-content animate-marquee text-4xl md:text-6xl font-black tracking-tighter text-white/8 uppercase">
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">LARAVEL ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">FLUTTER ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">TAILWIND ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">MYSQL ✦</span>
-            <!-- Duplikat untuk efek infinite loop yang mulus -->
+            <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">FIGMA ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">LARAVEL ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">FLUTTER ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">TAILWIND ✦</span>
             <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">MYSQL ✦</span>
+            <span class="mx-8 hover:text-blue-500 transition-colors cursor-default">FIGMA ✦</span>
         </div>
     </section>
 
     <main class="max-w-7xl mx-auto px-6">
-        <!-- Experience with Photo Update -->
+
+        <!-- ===== EXPERIENCE ===== -->
         <section id="experience" class="py-32 border-t border-white/5">
-            <h2 class="text-center text-[10px] uppercase tracking-[0.5em] text-blue-500 font-black mb-20">Experience</h2>
-            
+            <h2 class="text-center text-[10px] uppercase tracking-[0.5em] text-blue-500 font-black mb-20"
+                data-i18n="exp_label">Experience</h2>
+
             <div class="relative max-w-5xl mx-auto timeline-container px-4">
-                
+
                 <!-- Item 1 (Right) -->
-                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger" data-aos="fade-up">
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up">
                     <div class="hidden md:block md:w-[45%]"></div>
-                    
-                    <div class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500 border-4 border-surface timeline-dot z-10"></div>
-                    
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500 border-4 border-surface timeline-dot z-10">
+                    </div>
                     <div class="w-full pl-14 md:pl-0 md:w-[45%]">
-                        <div class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-blue-500/30 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] relative overflow-hidden">
-                            <!-- Foto di dalam card -->
-                            <div class="w-full h-32 md:h-40 rounded-xl overflow-hidden mb-6 relative">
-                                <img src="image.png" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="Team Work">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-blue-500/30 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="image.png"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="SMPN 10 Bandung" style="image-rendering:-webkit-optimize-contrast;">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
                                 <div class="absolute bottom-3 left-3 flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <span class="text-[10px] font-bold tracking-widest text-white shadow-black drop-shadow-md">CURRENT ROLE</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-white drop-shadow-md"
+                                        data-i18n="exp_current">CURRENT ROLE</span>
                                 </div>
                             </div>
-
-                            <span class="text-xs font-mono font-bold text-blue-400 mb-2 block tracking-widest">2025 - Teaching</span>
-                            <h4 class="text-2xl font-black uppercase mb-2 group-hover:text-blue-400 transition-colors">SMPN 10 BANDUNG</h4>
-                            <p class="text-sm text-gray-400 mb-4 font-bold">Teaching about basic coding</p>
-                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors">Memimpin tim frontend dalam membangun arsitektur aplikasi berskala besar, meningkatkan performa hingga 40%, dan mengimplementasikan sistem desain interaktif.</p>
+                            <span class="text-xs font-mono font-bold text-blue-400 mb-2 block tracking-widest">2025 —
+                                Teaching</span>
+                            <h4 class="text-2xl font-black uppercase mb-1 group-hover:text-blue-400 transition-colors">
+                                SMPN 10 BANDUNG</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp1_role">Teaching about basic
+                                coding</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp1_desc">Memimpin tim frontend dalam membangun arsitektur aplikasi berskala
+                                besar, meningkatkan performa hingga 40%, dan mengimplementasikan sistem desain
+                                interaktif.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Item 2 (Left) -->
-                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up" data-aos-delay="100">
                     <div class="w-full pl-14 md:pl-0 md:w-[45%] md:text-right order-2 md:order-1">
-                        <div class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-purple-500/30 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.1)] relative overflow-hidden">
-                            <!-- Foto di dalam card -->
-                            <div class="w-full h-32 md:h-40 rounded-xl overflow-hidden mb-6 relative">
-                                <img src="image copy.png" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="Coding">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-purple-500/30 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="image copy.png"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="SMPN 1 Ungaran" style="image-rendering:-webkit-optimize-contrast;">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
                             </div>
-
-                            <span class="text-xs font-mono font-bold text-purple-400 mb-2 block tracking-widest">2025 - Teaching</span>
-                            <h4 class="text-2xl font-black uppercase mb-2 group-hover:text-purple-400 transition-colors">SMPN 1 UNGARAN</h4>
-                            <p class="text-sm text-gray-400 mb-4 font-bold">Teaching about basic & tools figma</p>
-                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors">Mengembangkan CMS kustom dan portal e-commerce dari nol. Menghubungkan logika backend yang kompleks dengan antarmuka yang ramah pengguna.</p>
+                            <span class="text-xs font-mono font-bold text-purple-400 mb-2 block tracking-widest">2025 —
+                                Teaching</span>
+                            <h4
+                                class="text-2xl font-black uppercase mb-1 group-hover:text-purple-400 transition-colors">
+                                SMPN 1 UNGARAN</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp2_role">Teaching about basic
+                                &amp; tools figma</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp2_desc">Mengembangkan CMS kustom dan portal e-commerce dari nol.
+                                Menghubungkan logika backend yang kompleks dengan antarmuka yang ramah pengguna.</p>
                         </div>
                     </div>
-                    
-                    <div class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-purple-500 border-4 border-surface timeline-dot z-10 order-1 md:order-2"></div>
-                    
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-purple-500 border-4 border-surface timeline-dot z-10 order-1 md:order-2">
+                    </div>
+                    <div class="hidden md:block md:w-[45%] order-3"></div>
+                </div>
+
+                <!-- Item 3 (Right) -->
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up" data-aos-delay="150">
+                    <div class="hidden md:block md:w-[45%]"></div>
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-emerald-500 border-4 border-surface timeline-dot z-10">
+                    </div>
+                    <div class="w-full pl-14 md:pl-0 md:w-[45%]">
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-emerald-500/30 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80&fit=crop"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="Freelance">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-emerald-400 mb-2 block tracking-widest">2024 —
+                                Freelance</span>
+                            <h4
+                                class="text-2xl font-black uppercase mb-1 group-hover:text-emerald-400 transition-colors">
+                                WEB DEVELOPER</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp3_role">Freelance Full-stack
+                                Developer</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp3_desc">Membangun website dan aplikasi web untuk klien lokal menggunakan
+                                Laravel dan Tailwind CSS. Menyelesaikan 5+ proyek dalam satu tahun.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 (Left) -->
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-full pl-14 md:pl-0 md:w-[45%] md:text-right order-2 md:order-1">
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-orange-500/30 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80&fit=crop"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="UI Designer">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-orange-400 mb-2 block tracking-widest">2024 —
+                                Design</span>
+                            <h4
+                                class="text-2xl font-black uppercase mb-1 group-hover:text-orange-400 transition-colors">
+                                UI/UX DESIGNER</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp4_role">Mobile App Interface
+                                Designer</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp4_desc">Merancang antarmuka aplikasi mobile menggunakan Figma. Menciptakan
+                                pengalaman pengguna yang intuitif dan estetis untuk berbagai klien startup.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-orange-500 border-4 border-surface timeline-dot z-10 order-1 md:order-2">
+                    </div>
+                    <div class="hidden md:block md:w-[45%] order-3"></div>
+                </div>
+
+                <!-- Item 5 (Right) -->
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up" data-aos-delay="250">
+                    <div class="hidden md:block md:w-[45%]"></div>
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-pink-500 border-4 border-surface timeline-dot z-10">
+                    </div>
+                    <div class="w-full pl-14 md:pl-0 md:w-[45%]">
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-pink-500/30 group-hover:shadow-[0_0_30px_rgba(236,72,153,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80&fit=crop"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="Bootcamp">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-pink-400 mb-2 block tracking-widest">2023 —
+                                Education</span>
+                            <h4 class="text-2xl font-black uppercase mb-1 group-hover:text-pink-400 transition-colors">
+                                BOOTCAMP MENTOR</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp5_role">Programming Bootcamp
+                                Instructor</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp5_desc">Menjadi mentor di bootcamp programming untuk pemula. Mengajarkan
+                                dasar-dasar HTML, CSS, JavaScript, dan Laravel kepada lebih dari 30 peserta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 6 (Left) -->
+                <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center w-full timeline-item group cursor-pointer hover-trigger"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-full pl-14 md:pl-0 md:w-[45%] md:text-right order-2 md:order-1">
+                        <div
+                            class="glass-card p-6 md:p-8 rounded-2xl group-hover:bg-white/5 transition-all duration-500 border border-white/5 group-hover:border-cyan-500/30 group-hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] relative overflow-hidden">
+                            <div class="w-full h-36 md:h-44 rounded-xl overflow-hidden mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=800&q=80&fit=crop"
+                                    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    alt="Internship">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent">
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-cyan-400 mb-2 block tracking-widest">2023 —
+                                Internship</span>
+                            <h4 class="text-2xl font-black uppercase mb-1 group-hover:text-cyan-400 transition-colors">
+                                BACKEND INTERN</h4>
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp6_role">Laravel Backend
+                                Developer Intern</p>
+                            <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
+                                data-i18n="exp6_desc">Magang sebagai Backend Developer di perusahaan teknologi lokal.
+                                Berkontribusi dalam pengembangan REST API dan pengelolaan database MySQL.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-500 border-4 border-surface timeline-dot z-10 order-1 md:order-2">
+                    </div>
                     <div class="hidden md:block md:w-[45%] order-3"></div>
                 </div>
 
             </div>
         </section>
 
-        <!-- Projects -->
+        <!-- ===== PROJECTS ===== -->
         <section id="projects" class="py-32 border-t border-white/5">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6" data-aos="fade-up">
-                <h3 class="text-5xl font-black tracking-tighter uppercase">Karya<br><span class="text-blue-500">Terpilih</span></h3>
-                <div class="flex items-center space-x-3 text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/10 cursor-default">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
+                data-aos="fade-up">
+                <h3 class="text-5xl md:text-6xl font-black tracking-tighter uppercase leading-tight">
+                    <span data-i18n="proj_title_1">Karya</span><br>
+                    <span class="text-blue-500" data-i18n="proj_title_2">Terpilih</span>
+                </h3>
+                <div
+                    class="flex items-center space-x-3 text-gray-500 bg-white/5 px-5 py-2.5 rounded-full border border-white/10 cursor-default">
                     <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-blue-500 animate-pulse"></i>
-                    <span class="text-xs font-bold uppercase tracking-widest">Arahkan kursor ke kartu</span>
+                    <span class="text-xs font-bold uppercase tracking-widest" data-i18n="proj_hint">Arahkan kursor ke
+                        kartu</span>
                 </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Cards Grid: 2-col top 4 + 2 wide bottom -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
                 <!-- Project 1 -->
-                <div class="project-card h-[450px] md:h-[550px] hover-trigger" data-aos="zoom-in">
-                    <div class="project-card-inner w-full h-full relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-card cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/80 to-transparent"></div>
-                        
-                        <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end z-10">
-                            <div class="project-card-hover-wrapper">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="text-blue-400 font-mono text-[10px] font-black uppercase px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full backdrop-blur-md">Web App</span>
-                                    <span class="text-white/40 font-mono text-[10px] font-bold">2024</span>
-                                </div>
-                                <h4 class="text-3xl md:text-5xl font-black uppercase mb-2 text-white drop-shadow-lg tracking-tighter">Nova Intel</h4>
-                                
-                                <div class="project-content-reveal">
-                                    <p class="text-gray-400 text-sm max-w-md leading-relaxed">Dashboard analitik interaktif dengan visualisasi data real-time. Dirancang dengan animasi mulus dan tata letak responsif kelas atas.</p>
-                                    <div class="flex items-center gap-4 mt-6">
-                                        <button class="px-8 py-4 bg-white hover:bg-blue-500 text-black hover:text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition-all flex items-center space-x-2">
-                                            <span>Lihat Detail</span>
-                                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                                        </button>
-                                        <button class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all">
-                                            <i data-lucide="github" class="w-5 h-5"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                <div class="proj-card hover-trigger" data-aos="fade-up">
+                    <div class="overflow-hidden relative">
+                        <!-- HD image: w=1600&q=90 -->
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1600&q=90&fit=crop&auto=format"
+                            class="proj-img" alt="Nova Intel" loading="lazy">
+                        <!-- Gradient overlay -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none">
+                        </div>
+                    </div>
+                    <!-- Deco number -->
+                    <span class="proj-num">01</span>
+                    <!-- Content -->
+                    <div class="p-7 relative">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="tech-badge text-blue-400">Web App</span>
+                            <span class="tech-badge">Laravel</span>
+                            <span class="tech-badge">MySQL</span>
+                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2024</span>
+                        </div>
+                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">Nova Intel</h4>
+                        <div class="w-10 h-0.5 bg-blue-500 mb-4 transition-all duration-300 group-hover:w-20"></div>
+                        <div class="proj-desc">
+                            <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj1_desc">Dashboard
+                                analitik interaktif dengan visualisasi data real-time. Dirancang dengan animasi mulus
+                                dan tata letak responsif kelas atas.</p>
+                            <div class="flex items-center gap-3">
+                                <button class="proj-cta-btn hover-trigger">
+                                    <span data-i18n="proj_detail">Lihat Detail</span>
+                                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button class="proj-cta-btn outline hover-trigger">
+                                    <i data-lucide="github" class="w-4 h-4"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card h-[450px] md:h-[550px] hover-trigger" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="project-card-inner w-full h-full relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-card cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/80 to-transparent"></div>
-                        
-                        <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end z-10">
-                            <div class="project-card-hover-wrapper">
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <span class="text-purple-400 font-mono text-[10px] font-black uppercase px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full backdrop-blur-md">Mobile App</span>
-                                    <span class="text-white/40 font-mono text-[10px] font-bold">2023</span>
-                                </div>
-                                <h4 class="text-3xl md:text-5xl font-black uppercase mb-2 text-white drop-shadow-lg tracking-tighter">Zenith App</h4>
-                                
-                                <div class="project-content-reveal">
-                                    <p class="text-gray-400 text-sm max-w-md leading-relaxed">Aplikasi manajemen produktivitas dengan antarmuka gelap yang elegan. Menghubungkan data cloud secara instan tanpa jeda.</p>
-                                    <div class="flex items-center gap-4 mt-6">
-                                        <button class="px-8 py-4 bg-white hover:bg-purple-500 text-black hover:text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition-all flex items-center space-x-2">
-                                            <span>Lihat Detail</span>
-                                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="proj-card hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1600&q=90&fit=crop&auto=format"
+                            class="proj-img" alt="Zenith App" loading="lazy">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none">
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section with Magnetic Button -->
-        <section id="contact" class="py-32">
-            <div class="bg-card rounded-[3rem] p-8 md:p-16 border border-white/5 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-16">
-                <!-- Decorative Glow -->
-                <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 blur-[120px] pointer-events-none"></div>
-                
-                <div class="lg:w-5/12 relative z-10 text-left">
-                    <div class="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full mb-8">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                        <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Tersedia untuk proyek</span>
-                    </div>
-                    <h2 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none">
-                        MARI<br>BERKOLABORASI<span class="text-blue-500">.</span>
-                    </h2>
-                    <p class="text-gray-400 text-lg mb-8">
-                        Kirimkan ide brilian Anda langsung ke perangkat saya. Kita wujudkan visi Anda menjadi produk digital yang luar biasa.
-                    </p>
-                </div>
-
-                <!-- Interactive Chat Form -->
-                <div class="lg:w-6/12 w-full relative z-10 hover-trigger">
-                    <div class="glass-card p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-500">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-blue-500/10"></div>
-                        
-                        <div class="flex items-center space-x-4 mb-8">
-                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                                <i data-lucide="terminal" class="w-5 h-5 text-blue-400"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold">Direct Message</h3>
-                                <p class="text-xs text-gray-500">Terkoneksi langsung ke WhatsApp</p>
-                            </div>
+                    <span class="proj-num" style="color:rgba(168,85,247,0.04);">02</span>
+                    <div class="p-7 relative">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="tech-badge text-purple-400">Mobile App</span>
+                            <span class="tech-badge">Flutter</span>
+                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2023</span>
                         </div>
-
-                        <div class="space-y-5 relative z-10">
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Nama Anda</label>
-                                <input type="text" id="wa-name" placeholder="Ketik nama Anda di sini..." class="chat-input hover-trigger w-full bg-[#030303] border border-white/10 rounded-xl p-4 text-white text-sm focus:outline-none transition-all placeholder-gray-700">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Pesan / Ide</label>
-                                <textarea id="wa-msg" placeholder="Halo Alif, saya punya ide untuk membuat..." class="chat-input hover-trigger w-full bg-[#030303] border border-white/10 rounded-xl p-4 text-white text-sm focus:outline-none transition-all placeholder-gray-700 h-32 resize-none"></textarea>
-                            </div>
-                            <!-- MAGNETIC BUTTON -->
-                            <div class="pt-4" id="magnetic-area">
-                                <button id="wa-btn" onclick="sendDirectMessage()" class="magnetic-btn hover-trigger w-full bg-white text-black hover:bg-blue-500 hover:text-white font-black uppercase tracking-[0.2em] text-[10px] py-5 rounded-xl transition-all duration-300 flex justify-center items-center space-x-3 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]">
-                                    <span id="wa-btn-text">Kirim Transmisi</span>
-                                    <i data-lucide="send" id="wa-btn-icon" class="w-4 h-4"></i>
+                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">Zenith App</h4>
+                        <div class="w-10 h-0.5 bg-purple-500 mb-4 transition-all duration-300"></div>
+                        <div class="proj-desc">
+                            <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj2_desc">Aplikasi
+                                manajemen produktivitas dengan antarmuka gelap yang elegan. Menghubungkan data cloud
+                                secara instan tanpa jeda.</p>
+                            <div class="flex items-center gap-3">
+                                <button class="proj-cta-btn hover-trigger" style="--hover-bg:#a855f7;">
+                                    <span data-i18n="proj_detail">Lihat Detail</span>
+                                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button class="proj-cta-btn outline hover-trigger">
+                                    <i data-lucide="github" class="w-4 h-4"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Project 4 -->
+                <div class="proj-card hover-trigger" data-aos="fade-up" data-aos-delay="150">
+                    <div class="overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=90&fit=crop&auto=format"
+                            class="proj-img" alt="ShopEasy" loading="lazy">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none">
+                        </div>
+                    </div>
+                    <span class="proj-num" style="color:rgba(249,115,22,0.04);">04</span>
+                    <div class="p-7 relative">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="tech-badge text-orange-400">E-Commerce</span>
+                            <span class="tech-badge">Laravel</span>
+                            <span class="tech-badge">Stripe</span>
+                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2024</span>
+                        </div>
+                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">ShopEasy</h4>
+                        <div class="w-10 h-0.5 bg-orange-500 mb-4 transition-all duration-300 group-hover:w-20"></div>
+                        <div class="proj-desc">
+                            <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj4_desc">Platform
+                                e-commerce modern dengan sistem keranjang belanja, pembayaran, dan manajemen inventaris
+                                terintegrasi.</p>
+                            <div class="flex items-center gap-3">
+                                <button class="proj-cta-btn hover-trigger"><span data-i18n="proj_detail">Lihat
+                                        Detail</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></button>
+                                <button class="proj-cta-btn outline hover-trigger"><i data-lucide="github"
+                                        class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="proj-card hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1600&q=90&fit=crop&auto=format"
+                            class="proj-img" alt="TrackFlow" loading="lazy">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none">
+                        </div>
+                    </div>
+                    <span class="proj-num" style="color:rgba(236,72,153,0.04);">05</span>
+                    <div class="p-7 relative">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="tech-badge text-pink-400">Mobile App</span>
+                            <span class="tech-badge">Flutter</span>
+                            <span class="tech-badge">Firebase</span>
+                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2023</span>
+                        </div>
+                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">TrackFlow</h4>
+                        <div class="w-10 h-0.5 bg-pink-500 mb-4 transition-all duration-300"></div>
+                        <div class="proj-desc">
+                            <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj5_desc">Aplikasi
+                                pelacak keuangan pribadi dengan grafik interaktif, notifikasi pintar, dan sinkronisasi
+                                cloud real-time.</p>
+                            <div class="flex items-center gap-3">
+                                <button class="proj-cta-btn hover-trigger"><span data-i18n="proj_detail">Lihat
+                                        Detail</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></button>
+                                <button class="proj-cta-btn outline hover-trigger"><i data-lucide="github"
+                                        class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 — Full width -->
+            <div class="proj-card hover-trigger md:flex mb-6" data-aos="fade-up" data-aos-delay="250">
+                <div class="overflow-hidden relative md:w-1/2 flex-shrink-0" style="min-height:240px;">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600&q=90&fit=crop&auto=format"
+                        class="proj-img md:h-full" style="height:240px;" alt="Pixel Studio" loading="lazy">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-transparent to-[#0D0D0D] pointer-events-none hidden md:block">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none md:hidden">
+                    </div>
+                </div>
+                <span class="proj-num" style="color:rgba(16,185,129,0.04);">03</span>
+                <div class="p-7 md:p-10 relative flex flex-col justify-center md:w-1/2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="tech-badge text-emerald-400">Full-stack</span>
+                        <span class="tech-badge">Laravel</span>
+                        <span class="tech-badge">Tailwind</span>
+                        <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2024</span>
+                    </div>
+                    <h4 class="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white mb-1">Pixel Studio
+                    </h4>
+                    <div class="w-10 h-0.5 bg-emerald-500 mb-4"></div>
+                    <div class="proj-desc">
+                        <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj3_desc">Platform manajemen
+                            aset digital berbasis web. Mendukung kolaborasi tim secara real-time dengan sistem izin
+                            akses yang canggih.</p>
+                        <div class="flex items-center gap-3">
+                            <button class="proj-cta-btn hover-trigger"><span data-i18n="proj_detail">Lihat
+                                    Detail</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></button>
+                            <button class="proj-cta-btn outline hover-trigger"><i data-lucide="github"
+                                    class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 — Full width -->
+            <div class="proj-card hover-trigger md:flex" data-aos="fade-up" data-aos-delay="300">
+                <div class="overflow-hidden relative md:w-1/2 flex-shrink-0 md:order-2" style="min-height:240px;">
+                    <img src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?w=1600&q=90&fit=crop&auto=format"
+                        class="proj-img md:h-full" style="height:240px;" alt="EduSphere" loading="lazy">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-l from-transparent to-[#0D0D0D] pointer-events-none hidden md:block">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/50 to-transparent pointer-events-none md:hidden">
+                    </div>
+                </div>
+                <span class="proj-num" style="color:rgba(6,182,212,0.04);">06</span>
+                <div class="p-7 md:p-10 relative flex flex-col justify-center md:w-1/2 md:order-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="tech-badge text-cyan-400">EdTech</span>
+                        <span class="tech-badge">Laravel</span>
+                        <span class="tech-badge">MySQL</span>
+                        <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2025</span>
+                    </div>
+                    <h4 class="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white mb-1">EduSphere
+                    </h4>
+                    <div class="w-10 h-0.5 bg-cyan-500 mb-4"></div>
+                    <div class="proj-desc">
+                        <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj6_desc">Platform
+                            pembelajaran online dengan sistem kuis interaktif, progress tracking, dan sertifikasi
+                            digital otomatis.</p>
+                        <div class="flex items-center gap-3">
+                            <button class="proj-cta-btn hover-trigger"><span data-i18n="proj_detail">Lihat
+                                    Detail</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></button>
+                            <button class="proj-cta-btn outline hover-trigger"><i data-lucide="github"
+                                    class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        
+        <!-- ===== SKILLS SECTION (NEW) ===== -->
+        <section id="skills" class="py-32 border-t border-white/5">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-blue-500 font-black mb-4"
+                    data-i18n="skills_label">Keahlian</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter" data-i18n="skills_title">Tech Stack &amp;
+                    Tools</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto" data-aos="fade-up"
+                data-aos-delay="100">
+                <!-- Skill bars -->
+                <div class="space-y-6">
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">Laravel</span>
+                            <span class="text-xs font-mono text-blue-400">90%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">Flutter</span>
+                            <span class="text-xs font-mono text-purple-400">85%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">MySQL</span>
+                            <span class="text-xs font-mono text-emerald-400">88%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="88%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">Tailwind CSS</span>
+                            <span class="text-xs font-mono text-cyan-400">92%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">Figma</span>
+                            <span class="text-xs font-mono text-pink-400">80%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-pink-600 to-pink-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-widest">JavaScript</span>
+                            <span class="text-xs font-mono text-orange-400">78%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-orange-600 to-orange-400 rounded-full w-0 transition-all duration-1000"
+                                data-width="78%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACT ===== -->
+        <section id="contact" class="py-32">
+            <div class="bg-card rounded-[3rem] p-8 md:p-16 border border-white/5 relative overflow-hidden">
+                <!-- Decorative Glow -->
+                <div
+                    class="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/[0.08] blur-[120px] pointer-events-none">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+                    <!-- Left: Text -->
+                    <div class="text-left">
+                        <div
+                            class="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full mb-8">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest"
+                                data-i18n="contact_available">Tersedia untuk proyek</span>
+                        </div>
+                        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-6 leading-none"
+                            data-i18n="contact_title">
+                            MARI<br>BERKOLABORASI<span class="text-blue-500">.</span>
+                        </h2>
+                        <p class="text-gray-400 text-lg mb-8" data-i18n="contact_desc">
+                            Kirimkan ide brilian Anda langsung ke perangkat saya. Kita wujudkan visi Anda menjadi produk
+                            digital yang luar biasa.
+                        </p>
+                        <!-- Social links -->
+                        <div class="flex items-center gap-4">
+                            <a href="#"
+                                class="hover-trigger glass-card p-3 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all group">
+                                <i data-lucide="github"
+                                    class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors"></i>
+                            </a>
+                            <a href="#"
+                                class="hover-trigger glass-card p-3 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all group">
+                                <i data-lucide="linkedin"
+                                    class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors"></i>
+                            </a>
+                            <a href="#"
+                                class="hover-trigger glass-card p-3 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all group">
+                                <i data-lucide="instagram"
+                                    class="w-5 h-5 text-gray-400 group-hover:text-pink-400 transition-colors"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Chat Form -->
+                    <div class="hover-trigger">
+                        <div
+                            class="glass-card p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-500">
+                            <div
+                                class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-blue-500/10">
+                            </div>
+
+                            <div class="flex items-center space-x-4 mb-8">
+                                <div
+                                    class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 flex-shrink-0">
+                                    <i data-lucide="terminal" class="w-5 h-5 text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold" data-i18n="form_title">Direct Message</h3>
+                                    <p class="text-xs text-gray-500" data-i18n="form_sub">Terkoneksi langsung ke
+                                        WhatsApp</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-5 relative z-10">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3"
+                                        data-i18n="form_name_label">Nama Anda</label>
+                                    <input type="text" id="wa-name" data-i18n-placeholder="form_name_placeholder"
+                                        placeholder="Ketik nama Anda di sini..."
+                                        class="chat-input hover-trigger w-full bg-[#030303] border border-white/10 rounded-xl p-4 text-white text-sm focus:outline-none transition-all placeholder-gray-700">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3"
+                                        data-i18n="form_msg_label">Pesan / Ide</label>
+                                    <textarea id="wa-msg" data-i18n-placeholder="form_msg_placeholder"
+                                        placeholder="Halo Alif, saya punya ide untuk membuat..."
+                                        class="chat-input hover-trigger w-full bg-[#030303] border border-white/10 rounded-xl p-4 text-white text-sm focus:outline-none transition-all placeholder-gray-700 h-32 resize-none"></textarea>
+                                </div>
+                                <div class="pt-4" id="magnetic-area">
+                                    <button id="wa-btn" onclick="sendDirectMessage()"
+                                        class="magnetic-btn hover-trigger w-full bg-white text-black hover:bg-blue-500 hover:text-white font-black uppercase tracking-[0.2em] text-[10px] py-5 rounded-xl transition-all duration-300 flex justify-center items-center space-x-3 shadow-[0_0_20px_rgba(255,255,255,0.08)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                                        <span id="wa-btn-text" data-i18n="form_send">Kirim Transmisi</span>
+                                        <i data-lucide="send" id="wa-btn-icon" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="py-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] uppercase tracking-[0.4em] text-gray-600 font-bold">
-            <p>&copy; 2026 Alif.</p>
+        <div
+            class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.4em] text-gray-600 font-bold">
+            <p>&copy; 2026 Alif Satria.</p>
             <div class="flex space-x-8">
                 <a href="#" class="hover-trigger hover:text-white transition-colors">GitHub</a>
                 <a href="#" class="hover-trigger hover:text-white transition-colors">LinkedIn</a>
+                <a href="#" class="hover-trigger hover:text-white transition-colors">Instagram</a>
             </div>
         </div>
     </footer>
@@ -477,56 +1281,92 @@
         AOS.init({ duration: 1000, once: false });
         lucide.createIcons();
 
-        // 1. Navbar scroll effect
+        // ── 0a. Typewriter ──────────────────────────────────────────
+        const typewriterEl = document.getElementById('typewriter-text');
+        if (typewriterEl) {
+            const phrases = ['Full-stack Developer', 'Mobile App Builder', 'UI/UX Enthusiast', 'Problem Solver'];
+            let phraseIdx = 0, charIdx = 0, deleting = false;
+            function typeWriter() {
+                const current = phrases[phraseIdx];
+                typewriterEl.textContent = deleting ? current.slice(0, --charIdx) : current.slice(0, ++charIdx);
+                if (!deleting && charIdx === current.length) { deleting = true; setTimeout(typeWriter, 1800); return; }
+                if (deleting && charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; }
+                setTimeout(typeWriter, deleting ? 60 : 90);
+            }
+            setTimeout(typeWriter, 800);
+        }
+
+        // ── 0b. Counters ────────────────────────────────────────────
+        const counterObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const el = e.target, target = +el.dataset.target;
+                let start = null;
+                function step(ts) {
+                    if (!start) start = ts;
+                    const p = Math.min((ts - start) / 1200, 1);
+                    el.textContent = Math.floor(p * target);
+                    if (p < 1) requestAnimationFrame(step); else el.textContent = target + '+';
+                }
+                requestAnimationFrame(step);
+                counterObs.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.counter').forEach(c => counterObs.observe(c));
+
+        // ── 0c. Skill bars ──────────────────────────────────────────
+        const barObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.width; barObs.unobserve(e.target); } });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.skill-bar').forEach(b => barObs.observe(b));
+
+        // ── 1. Navbar scroll effect ──────────────────────────────────
         const header = document.getElementById('main-nav');
+        const navInner = document.getElementById('nav-inner');
+
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
+            if (window.scrollY > 80) {
                 header.classList.add('nav-scrolled');
+                navInner.classList.add('max-w-full');
             } else {
                 header.classList.remove('nav-scrolled');
+                navInner.classList.remove('max-w-full');
             }
         });
 
-        // 2. Custom Cursor Logic
+        // ── 2. Custom Cursor ──────────────────────────────────────────
         const cursor = document.getElementById('cursor');
-        const hoverTriggers = document.querySelectorAll('.hover-trigger, button, a');
-
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
-
-        hoverTriggers.forEach(trigger => {
-            trigger.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            trigger.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        document.querySelectorAll('.hover-trigger, button, a').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
 
-        // 3. Interactive Ambient Glow (Follows mouse slowly)
+        // ── 3. Ambient Glow follows mouse ─────────────────────────────
         const ambientGlow = document.getElementById('ambient-glow');
         document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 100; // Move max 50px
-            const y = (e.clientY / window.innerHeight - 0.5) * 100;
+            const x = (e.clientX / window.innerWidth - 0.5) * 80;
+            const y = (e.clientY / window.innerHeight - 0.5) * 80;
             ambientGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
         });
 
-        // 4. Magnetic Button Logic
+        // ── 4. Magnetic Button ────────────────────────────────────────
         const magneticArea = document.getElementById('magnetic-area');
         const magneticBtn = document.getElementById('wa-btn');
-
         magneticArea.addEventListener('mousemove', (e) => {
             const rect = magneticArea.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            // Tarik button sedikit ke arah mouse
-            magneticBtn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            magneticBtn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
         });
-
         magneticArea.addEventListener('mouseleave', () => {
-            // Kembalikan ke posisi semula
-            magneticBtn.style.transform = `translate(0px, 0px)`;
+            magneticBtn.style.transform = 'translate(0,0)';
         });
 
-        // 5. Interactive WhatsApp Form Logic
+        // ── 5. WhatsApp Form ──────────────────────────────────────────
         function sendDirectMessage() {
             const nameInput = document.getElementById('wa-name');
             const msgInput = document.getElementById('wa-msg');
@@ -534,54 +1374,192 @@
             const btnText = document.getElementById('wa-btn-text');
             const btnIcon = document.getElementById('wa-btn-icon');
 
-            if(!nameInput.value || !msgInput.value) {
-                // Interactive error state (Button becomes Red and Shakes)
-                btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
-                btn.classList.remove('bg-white', 'text-black', 'hover:bg-blue-500');
-                btnText.textContent = 'ISI FORM DAHULU';
+            if (!nameInput.value.trim() || !msgInput.value.trim()) {
+                btn.classList.add('bg-red-500', 'text-white');
+                btn.classList.remove('bg-white', 'text-black');
+                btnText.textContent = currentLang === 'id' ? 'ISI FORM DAHULU!' : 'FILL THE FORM FIRST!';
                 btnIcon.setAttribute('data-lucide', 'alert-circle');
                 lucide.createIcons();
-                
-                // Shake effect
-                btn.style.transform = 'translateX(5px)';
-                setTimeout(() => btn.style.transform = 'translateX(-5px)', 100);
-                setTimeout(() => btn.style.transform = 'translateX(5px)', 200);
-                setTimeout(() => btn.style.transform = 'translateX(0)', 300);
+
+                // Shake
+                [5, -5, 5, 0].forEach((v, i) => setTimeout(() => btn.style.transform = `translateX(${v}px)`, i * 100));
 
                 setTimeout(() => {
-                    // Revert back
-                    btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
-                    btn.classList.add('bg-white', 'text-black', 'hover:bg-blue-500');
-                    btnText.textContent = 'KIRIM TRANSMISI';
+                    btn.classList.remove('bg-red-500', 'text-white');
+                    btn.classList.add('bg-white', 'text-black');
+                    btnText.textContent = currentLang === 'id' ? translations.id.form_send : translations.en.form_send;
                     btnIcon.setAttribute('data-lucide', 'send');
                     lucide.createIcons();
                 }, 2500);
-                
                 return;
             }
 
-            // Success loading state
-            btnText.textContent = 'MENGIRIM...';
+            btnText.textContent = currentLang === 'id' ? 'MENGIRIM...' : 'SENDING...';
             btnIcon.setAttribute('data-lucide', 'loader');
             btnIcon.classList.add('animate-spin');
             lucide.createIcons();
 
             setTimeout(() => {
-                const encodedName = encodeURIComponent(nameInput.value);
-                const encodedMsg = encodeURIComponent(msgInput.value);
-                const waUrl = `https://wa.me/6281234567890?text=Halo Alif Satria, perkenalkan saya *${encodedName}*. %0A%0A${encodedMsg}`;
-                
-                window.open(waUrl, '_blank');
-
-                // Revert button
-                btnText.textContent = 'KIRIM TRANSMISI';
+                const name = encodeURIComponent(nameInput.value.trim());
+                const msg = encodeURIComponent(msgInput.value.trim());
+                window.open(`https://wa.me/6281234567890?text=Halo Alif Satria, perkenalkan saya *${name}*. %0A%0A${msg}`, '_blank');
+                btnText.textContent = currentLang === 'id' ? translations.id.form_send : translations.en.form_send;
                 btnIcon.setAttribute('data-lucide', 'send');
                 btnIcon.classList.remove('animate-spin');
                 nameInput.value = '';
                 msgInput.value = '';
                 lucide.createIcons();
-            }, 800);
+            }, 900);
         }
+
+        // ── 6. Bilingual Toggle (ID / EN) ─────────────────────────────
+        const translations = {
+            id: {
+                nav_info: 'Info',
+                nav_career: 'Karir',
+                nav_works: 'Karya',
+                nav_contact: 'Kontak',
+                nav_resume: 'Resume',
+                hero_sub: '// Creative Developer & Software Engineer',
+                hero_desc: 'Membangun solusi digital berkinerja tinggi dengan fokus pada pengalaman pengguna yang tak terlupakan.',
+                hero_scroll: 'Scroll ke bawah',
+                about_label: 'Tentang Saya',
+                about_title: 'Teknologi Bertemu Estetika.',
+                about_desc: 'Saya berspesialisasi dalam membangun aplikasi web dan mobile modern. Menggabungkan logika backend yang kuat dengan antarmuka yang sangat interaktif dan responsif.',
+                exp_label: 'Experience',
+                exp_current: 'CURRENT ROLE',
+                exp1_role: 'Teaching about basic coding',
+                exp1_desc: 'Memimpin tim frontend dalam membangun arsitektur aplikasi berskala besar, meningkatkan performa hingga 40%, dan mengimplementasikan sistem desain interaktif.',
+                exp2_role: 'Teaching about basic & tools figma',
+                exp2_desc: 'Mengembangkan CMS kustom dan portal e-commerce dari nol. Menghubungkan logika backend yang kompleks dengan antarmuka yang ramah pengguna.',
+                proj_title_1: 'Karya',
+                proj_title_2: 'Terpilih',
+                proj_hint: 'Arahkan kursor ke kartu',
+                proj1_desc: 'Dashboard analitik interaktif dengan visualisasi data real-time. Dirancang dengan animasi mulus dan tata letak responsif kelas atas.',
+                proj2_desc: 'Aplikasi manajemen produktivitas dengan antarmuka gelap yang elegan. Menghubungkan data cloud secara instan tanpa jeda.',
+                proj3_desc: 'Platform manajemen aset digital berbasis web. Mendukung kolaborasi tim secara real-time dengan sistem izin akses yang canggih.',
+                proj4_desc: 'Platform e-commerce modern dengan sistem keranjang belanja, pembayaran, dan manajemen inventaris terintegrasi.',
+                proj5_desc: 'Aplikasi pelacak keuangan pribadi dengan grafik interaktif, notifikasi pintar, dan sinkronisasi cloud real-time.',
+                proj6_desc: 'Platform pembelajaran online dengan sistem kuis interaktif, progress tracking, dan sertifikasi digital otomatis.',
+                proj_detail: 'Lihat Detail',
+                stat_projects: 'Proyek',
+                stat_years: 'Tahun',
+                stat_clients: 'Klien',
+                skills_label: 'Keahlian',
+                skills_title: 'Tech Stack & Tools',
+                exp3_role: 'Freelance Full-stack Developer',
+                exp3_desc: 'Membangun website dan aplikasi web untuk klien lokal menggunakan Laravel dan Tailwind CSS. Menyelesaikan 5+ proyek dalam satu tahun.',
+                exp4_role: 'Junior UI/UX Designer',
+                exp4_desc: 'Merancang antarmuka pengguna yang intuitif menggunakan Figma. Melakukan riset pengguna dan prototyping interaktif untuk klien startup.',
+                exp5_role: 'Mobile App Developer',
+                exp5_desc: 'Mengembangkan aplikasi Flutter lintas platform untuk Android dan iOS. Mengintegrasikan REST API dan Firebase untuk sinkronisasi data real-time.',
+                exp6_role: 'IT Lab Assistant',
+                exp6_desc: 'Membantu mahasiswa dalam pembelajaran pemrograman dasar dan penggunaan alat pengembangan perangkat lunak selama satu semester.',
+                contact_available: 'Tersedia untuk proyek',
+                contact_title: 'MARI\nBERKOLABORASI.',
+                contact_desc: 'Kirimkan ide brilian Anda langsung ke perangkat saya. Kita wujudkan visi Anda menjadi produk digital yang luar biasa.',
+                form_title: 'Direct Message',
+                form_sub: 'Terkoneksi langsung ke WhatsApp',
+                form_name_label: 'Nama Anda',
+                form_name_placeholder: 'Ketik nama Anda di sini...',
+                form_msg_label: 'Pesan / Ide',
+                form_msg_placeholder: 'Halo Alif, saya punya ide untuk membuat...',
+                form_send: 'Kirim Transmisi',
+            },
+            en: {
+                nav_info: 'Info',
+                nav_career: 'Career',
+                nav_works: 'Works',
+                nav_contact: 'Contact',
+                nav_resume: 'Resume',
+                hero_sub: '// Creative Developer & Software Engineer',
+                hero_desc: 'Building high-performance digital solutions focused on unforgettable user experiences.',
+                hero_scroll: 'Scroll down',
+                about_label: 'About Me',
+                about_title: 'Technology Meets Aesthetics.',
+                about_desc: 'I specialize in building modern web and mobile applications, blending powerful backend logic with highly interactive, responsive interfaces.',
+                exp_label: 'Experience',
+                exp_current: 'CURRENT ROLE',
+                exp1_role: 'Teaching about basic coding',
+                exp1_desc: 'Led the frontend team in building a large-scale application architecture, improving performance by 40%, and implementing an interactive design system.',
+                exp2_role: 'Teaching basics & Figma tools',
+                exp2_desc: 'Developed a custom CMS and e-commerce portal from scratch, connecting complex backend logic with a user-friendly interface.',
+                proj_title_1: 'Selected',
+                proj_title_2: 'Works',
+                proj_hint: 'Hover over a card',
+                proj1_desc: 'Interactive analytics dashboard with real-time data visualization. Built with smooth animations and a premium responsive layout.',
+                proj2_desc: 'Productivity management app with an elegant dark interface. Connects cloud data instantly with no latency.',
+                proj3_desc: 'Web-based digital asset management platform. Supports real-time team collaboration with a sophisticated permission system.',
+                proj4_desc: 'Modern e-commerce platform with integrated shopping cart, payment, and inventory management system.',
+                proj5_desc: 'Personal finance tracker app with interactive charts, smart notifications, and real-time cloud sync.',
+                proj6_desc: 'Online learning platform with interactive quizzes, progress tracking, and automated digital certification.',
+                proj_detail: 'View Details',
+                stat_projects: 'Projects',
+                stat_years: 'Years',
+                stat_clients: 'Clients',
+                skills_label: 'Skills',
+                skills_title: 'Tech Stack & Tools',
+                exp3_role: 'Freelance Full-stack Developer',
+                exp3_desc: 'Built websites and web applications for local clients using Laravel and Tailwind CSS. Completed 5+ projects within one year.',
+                exp4_role: 'Junior UI/UX Designer',
+                exp4_desc: 'Designed intuitive user interfaces using Figma. Conducted user research and interactive prototyping for startup clients.',
+                exp5_role: 'Mobile App Developer',
+                exp5_desc: 'Developed cross-platform Flutter apps for Android and iOS. Integrated REST APIs and Firebase for real-time data synchronization.',
+                exp6_role: 'IT Lab Assistant',
+                exp6_desc: 'Assisted students in learning basic programming and software development tools throughout one semester.',
+                contact_available: 'Available for projects',
+                contact_title: "LET'S\nCOLLABORATE.",
+                contact_desc: "Send your brilliant idea straight to my device. Let's turn your vision into an extraordinary digital product.",
+                form_title: 'Direct Message',
+                form_sub: 'Connected directly to WhatsApp',
+                form_name_label: 'Your Name',
+                form_name_placeholder: 'Type your name here...',
+                form_msg_label: 'Message / Idea',
+                form_msg_placeholder: 'Hey Alif, I have an idea to build...',
+                form_send: 'Send Transmission',
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'id';
+
+        function applyLang(lang) {
+            const t = translations[lang];
+            // Text nodes
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    // Handle multi-line (contact title)
+                    if (key === 'contact_title') {
+                        // The element has inner HTML with a <br>
+                        const parts = t[key].split('\n');
+                        el.innerHTML = parts[0] + '<br>' + parts[1].slice(0, -1) + '<span class="text-blue-500">.</span>';
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+            // Placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+            });
+            // Button label
+            document.getElementById('lang-label').textContent = lang === 'id' ? 'EN' : 'ID';
+            // html lang
+            document.documentElement.setAttribute('lang', lang);
+            // Reinit icons (in case any were text-replaced)
+            lucide.createIcons();
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            localStorage.setItem('lang', currentLang);
+            applyLang(currentLang);
+        }
+
+        // Apply on load
+        applyLang(currentLang);
     </script>
 </body>
+
 </html>
