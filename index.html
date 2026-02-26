@@ -31,7 +31,7 @@
                             '50%': { transform: 'translateY(-15px)' },
                         },
                         marquee: {
-                            '0%': { transform: 'translateX(0%)' },
+                            '0%': { transform: 'translateX(0%)' }, 
                             '100%': { transform: 'translateX(-50%)' },
                         },
                         shimmer: {
@@ -409,6 +409,137 @@
             background: #3b82f6;
             border-radius: 10px;
         }
+
+        /* =============================================
+           MOBILE RESPONSIVENESS
+           ============================================= */
+
+        /* On mobile: project descriptions always visible (no hover needed) */
+        @media (max-width: 768px) {
+            .proj-desc {
+                max-height: 300px;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Project card: disable translateY hover on touch */
+            .proj-card:hover {
+                transform: none;
+            }
+
+            /* Project card tap effect (active state) */
+            .proj-card:active {
+                transform: scale(0.98);
+            }
+
+            /* Hero title smaller on mobile */
+            h1 {
+                font-size: 3.5rem !important;
+                line-height: 0.88 !important;
+            }
+
+            /* Contact section better spacing */
+            #contact .bg-card {
+                border-radius: 2rem !important;
+                padding: 2rem !important;
+            }
+
+            /* WhatsApp floating button smaller on mobile */
+            a[href*="wa.me"] {
+                bottom: 1.25rem !important;
+                right: 1.25rem !important;
+                padding: 0.75rem !important;
+            }
+
+            /* Timeline: reduce gap & padding on mobile */
+            .timeline-container {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            /* Experience image: shorter on mobile */
+            .w-full.h-36 {
+                height: 8rem !important;
+            }
+
+            /* Nav pill floating width tweaks */
+            .nav-scrolled {
+                width: 94% !important;
+            }
+
+            /* About section: photo + text stack tighter */
+            #about .grid {
+                gap: 2.5rem !important;
+            }
+
+            /* Reduce marquee font on mobile */
+            .marquee-content {
+                font-size: 2rem !important;
+            }
+
+            /* Skills grid single column */
+            #skills .grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Proj card: keep shimmer but simpler on mobile */
+            .proj-card::before {
+                display: none;
+            }
+
+            /* Section padding smaller on mobile */
+            section.py-32 {
+                padding-top: 4rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            /* Contact title smaller */
+            [data-i18n="contact_title"] {
+                font-size: 3rem !important;
+                line-height: 1 !important;
+            }
+
+            /* Mobile hamburger nav background */
+            #main-nav {
+                background: rgba(3, 3, 3, 0.95);
+                backdrop-filter: blur(20px);
+            }
+        }
+
+        /* Tablet (768–1024) tweaks */
+        @media (min-width: 769px) and (max-width: 1024px) {
+
+            h1 {
+                font-size: 6rem !important;
+            }
+
+            .proj-desc {
+                max-height: 300px;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Touch device: experience cards always show color */
+        @media (hover: none) {
+            .proj-card .proj-img {
+                filter: brightness(0.7) saturate(0.9);
+            }
+
+            .proj-card .proj-num {
+                color: rgba(59, 130, 246, 0.05);
+            }
+
+            .timeline-item .timeline-dot {
+                transform: scale(1.2);
+            }
+
+            /* Experience card images: slightly brighter on touch */
+            .glass-card img {
+                filter: grayscale(0.3) !important;
+                opacity: 0.8 !important;
+            }
+        }
     </style>
 </head>
 
@@ -436,10 +567,10 @@
     <header class="fixed top-0 left-0 w-full z-50 flex justify-center py-5 transition-all duration-500" id="main-nav">
         <nav class="flex items-center justify-between w-full max-w-7xl px-8 transition-all duration-500" id="nav-inner">
             <!-- Logo -->
-            <a href="#home" class="hover-trigger font-black text-2xl tracking-tighter flex-shrink-0">Alif.<span
+            <a href="#home" class="hover-trigger font-black text-2xl tracking-tighter flex-shrink-0">Alif<span
                     class="text-blue-500">.</span></a>
 
-            <!-- Nav Links -->
+            <!-- Nav Links (desktop) -->
             <div class="hidden md:flex items-center space-x-8 text-[10px] uppercase tracking-[0.3em] font-bold">
                 <a href="#about" class="hover-trigger text-gray-400 hover:text-blue-400 transition-colors"
                     data-i18n="nav_info">Info</a>
@@ -458,15 +589,51 @@
                     <i data-lucide="globe" class="w-3 h-3"></i>
                     <span id="lang-label">EN</span>
                 </button>
-                <!-- Resume Button -->
+                <!-- Resume Button (hidden on very small screens) -->
                 <button
-                    class="hover-trigger px-6 py-2.5 bg-white text-black text-[10px] uppercase tracking-widest font-black hover:bg-blue-500 hover:text-white transition-all rounded-full"
-                    data-i18n="nav_resume">
-                    Resume
+                    class="hover-trigger hidden sm:block px-6 py-2.5 bg-white text-black text-[10px] uppercase tracking-widest font-black hover:bg-blue-500 hover:text-white transition-all rounded-full"
+                    data-i18n="nav_resume">Resume</button>
+                <!-- Hamburger (mobile only) -->
+                <button id="menu-toggle"
+                    class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/40 transition-all"
+                    onclick="toggleMobileMenu()" aria-label="Menu">
+                    <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb1"></span>
+                    <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb2"></span>
+                    <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb3"></span>
                 </button>
             </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-40 bg-[#030303]/98 backdrop-blur-xl flex flex-col items-center justify-center transition-all duration-500 opacity-0 pointer-events-none"
+        style="-webkit-backdrop-filter:blur(40px);">
+        <nav class="flex flex-col items-center gap-10 text-4xl font-black uppercase tracking-tighter">
+            <a href="#about" onclick="closeMobileMenu()"
+                class="text-gray-500 hover:text-white transition-colors duration-300" data-i18n="nav_info">Info</a>
+            <a href="#experience" onclick="closeMobileMenu()"
+                class="text-gray-500 hover:text-white transition-colors duration-300" data-i18n="nav_career">Karir</a>
+            <a href="#projects" onclick="closeMobileMenu()"
+                class="text-gray-500 hover:text-white transition-colors duration-300" data-i18n="nav_works">Karya</a>
+            <a href="#contact" onclick="closeMobileMenu()"
+                class="text-gray-500 hover:text-white transition-colors duration-300" data-i18n="nav_contact">Kontak</a>
+        </nav>
+        <div class="mt-12 flex items-center gap-4">
+            <button class="lang-btn" onclick="toggleLang()">
+                <i data-lucide="globe" class="w-3 h-3"></i>
+                <span id="lang-label-mobile">EN</span>
+            </button>
+            <button
+                class="px-8 py-3 bg-white text-black text-[11px] uppercase tracking-widest font-black rounded-full hover:bg-blue-500 hover:text-white transition-all"
+                data-i18n="nav_resume">Resume</button>
+        </div>
+        <button onclick="closeMobileMenu()"
+            class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full border border-white/10 hover:border-blue-500/40 transition-all text-gray-400 hover:text-white">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+    </div>
+
 
     <main class="max-w-7xl mx-auto px-6">
 
@@ -477,12 +644,12 @@
                     data-aos-delay="200" data-i18n="hero_sub">// Creative Developer &amp; Software Engineer</p>
                 <h1 class="text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.85] mb-14">
                     <div class="hover-trigger reveal-container block">
-                        <span class="reveal-text">CREATIVE</span>
-                        <div class="reveal-overlay">CREATIVE</div>
+                        <span class="reveal-text">SOFTWARE</span>
+                        <div class="reveal-overlay">SOFTWARE</div>
                     </div>
                     <div class="hover-trigger reveal-container block mt-2">
-                        <span class="reveal-text">DEVELOPER</span>
-                        <div class="reveal-overlay">DEVELOPER</div>
+                        <span class="reveal-text">ENGINEER</span>
+                        <div class="reveal-overlay">ENGINEER</div>
                     </div>
                 </h1>
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
@@ -521,7 +688,7 @@
                         </div>
                         <!-- Photo -->
                         <div class="relative rounded-3xl overflow-hidden border border-white/10 aspect-[3/4] w-full">
-                            <img src="alip.JPG"
+                            <img src="image copy 2.png"
                                 class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                                 alt="Alif Satria" style="image-rendering:-webkit-optimize-contrast;">
                             <!-- Inner gradient overlay -->
@@ -674,7 +841,7 @@
                                 <div class="absolute bottom-3 left-3 flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                                     <span class="text-[10px] font-bold tracking-widest text-white drop-shadow-md"
-                                        data-i18n="exp_current">CURRENT ROLE</span>
+                                        data-i18n="exp_current">TEACHING</span>
                                 </div>
                             </div>
                             <span class="text-xs font-mono font-bold text-blue-400 mb-2 block tracking-widest">2025 —
@@ -684,9 +851,9 @@
                             <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp1_role">Teaching about basic
                                 coding</p>
                             <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
-                                data-i18n="exp1_desc">Memimpin tim frontend dalam membangun arsitektur aplikasi berskala
-                                besar, meningkatkan performa hingga 40%, dan mengimplementasikan sistem desain
-                                interaktif.</p>
+                                data-i18n="exp1_desc">Mengajarkan basic coding menggunakan vscode, menyesuaikan materi
+                                disana yang sudah belajar tentang website menggunakan wordpress, untuk menggunakan
+                                html dan css.</p>
                         </div>
                     </div>
                 </div>
@@ -710,11 +877,11 @@
                             <h4
                                 class="text-2xl font-black uppercase mb-1 group-hover:text-purple-400 transition-colors">
                                 SMPN 1 UNGARAN</h4>
-                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp2_role">Teaching about basic
+                            <p class="text-sm text-gray-400 mb-4 font-bold" data-i18n="exp2_role">Mengajar tentang basic
                                 &amp; tools figma</p>
                             <p class="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors"
-                                data-i18n="exp2_desc">Mengembangkan CMS kustom dan portal e-commerce dari nol.
-                                Menghubungkan logika backend yang kompleks dengan antarmuka yang ramah pengguna.</p>
+                                data-i18n="exp2_desc">Mengajarkan murid smpn 1 ungaran tentang basic coding dan tools.
+                                Menggunakan figma untuk membuat desain sekolah yang interaktif.</p>
                         </div>
                     </div>
                     <div
@@ -875,7 +1042,7 @@
                 <div class="proj-card hover-trigger" data-aos="fade-up">
                     <div class="overflow-hidden relative">
                         <!-- HD image: w=1600&q=90 -->
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1600&q=90&fit=crop&auto=format"
+                        <img src="Slide 16_9 - 1 (1).png"
                             class="proj-img" alt="Nova Intel" loading="lazy">
                         <!-- Gradient overlay -->
                         <div
@@ -888,11 +1055,11 @@
                     <div class="p-7 relative">
                         <div class="flex items-center gap-2 mb-4">
                             <span class="tech-badge text-blue-400">Web App</span>
-                            <span class="tech-badge">Laravel</span>
-                            <span class="tech-badge">MySQL</span>
-                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2024</span>
+                            <span class="tech-badge">Flutter</span>
+                            <span class="tech-badge">QR</span>
+                            <span class="ml-auto text-white/30 font-mono text-[10px] font-bold">2026</span>
                         </div>
-                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">Nova Intel</h4>
+                        <h4 class="text-3xl font-black uppercase tracking-tighter text-white mb-1">QR S&G</h4>
                         <div class="w-10 h-0.5 bg-blue-500 mb-4 transition-all duration-300 group-hover:w-20"></div>
                         <div class="proj-desc">
                             <p class="text-gray-400 text-sm leading-relaxed mb-5" data-i18n="proj1_desc">Dashboard
@@ -1278,7 +1445,12 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: false });
+        AOS.init({
+            duration: 800,
+            once: false,
+            offset: window.innerWidth < 768 ? 40 : 100,
+            easing: 'ease-out-cubic',
+        });
         lucide.createIcons();
 
         // ── 0a. Typewriter ──────────────────────────────────────────
@@ -1427,11 +1599,11 @@
                 about_title: 'Teknologi Bertemu Estetika.',
                 about_desc: 'Saya berspesialisasi dalam membangun aplikasi web dan mobile modern. Menggabungkan logika backend yang kuat dengan antarmuka yang sangat interaktif dan responsif.',
                 exp_label: 'Experience',
-                exp_current: 'CURRENT ROLE',
-                exp1_role: 'Teaching about basic coding',
-                exp1_desc: 'Memimpin tim frontend dalam membangun arsitektur aplikasi berskala besar, meningkatkan performa hingga 40%, dan mengimplementasikan sistem desain interaktif.',
-                exp2_role: 'Teaching about basic & tools figma',
-                exp2_desc: 'Mengembangkan CMS kustom dan portal e-commerce dari nol. Menghubungkan logika backend yang kompleks dengan antarmuka yang ramah pengguna.',
+                exp_current: 'TEACHING',
+                exp1_role: 'ngajarin tentang basic coding',
+                exp1_desc: 'Mengajarkan basic coding menggunakan vscode, menyesuaikan materi disana yang sudah belajar tentang website menggunakan wordpress, untuk menggunakan html dan css.',
+                exp2_role: 'ngajarin tentang basic & tools figma',
+                exp2_desc: ' Mengajarkan murid smpn 1 ungaran tentang basic coding dan tools, Menggunakan figma untuk membuat desain sekolah yang interaktif.',
                 proj_title_1: 'Karya',
                 proj_title_2: 'Terpilih',
                 proj_hint: 'Arahkan kursor ke kartu',
@@ -1481,9 +1653,9 @@
                 exp_label: 'Experience',
                 exp_current: 'CURRENT ROLE',
                 exp1_role: 'Teaching about basic coding',
-                exp1_desc: 'Led the frontend team in building a large-scale application architecture, improving performance by 40%, and implementing an interactive design system.',
+                exp1_desc: 'Teaching basic coding using VSCode, adapting the material learned about websites using WordPress to use HTML and CSS.',
                 exp2_role: 'Teaching basics & Figma tools',
-                exp2_desc: 'Developed a custom CMS and e-commerce portal from scratch, connecting complex backend logic with a user-friendly interface.',
+                exp2_desc: ' Teaching students at SMPN 1 Ungaran about basic coding and tools, using Figma to create interactive school designs.',
                 proj_title_1: 'Selected',
                 proj_title_2: 'Works',
                 proj_hint: 'Hover over a card',
@@ -1545,6 +1717,8 @@
             });
             // Button label
             document.getElementById('lang-label').textContent = lang === 'id' ? 'EN' : 'ID';
+            const mobileLangLabel = document.getElementById('lang-label-mobile');
+            if (mobileLangLabel) mobileLangLabel.textContent = lang === 'id' ? 'EN' : 'ID';
             // html lang
             document.documentElement.setAttribute('lang', lang);
             // Reinit icons (in case any were text-replaced)
@@ -1555,6 +1729,35 @@
             currentLang = currentLang === 'id' ? 'en' : 'id';
             localStorage.setItem('lang', currentLang);
             applyLang(currentLang);
+        }
+
+        // ── 7. Mobile Menu ────────────────────────────────────────────
+        let mobileMenuOpen = false;
+        function toggleMobileMenu() {
+            mobileMenuOpen ? closeMobileMenu() : openMobileMenu();
+        }
+        function openMobileMenu() {
+            mobileMenuOpen = true;
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.remove('opacity-0', 'pointer-events-none');
+            menu.classList.add('opacity-100');
+            document.body.style.overflow = 'hidden';
+            // Animate hamburger to X
+            document.getElementById('hb1').style.transform = 'translateY(8px) rotate(45deg)';
+            document.getElementById('hb2').style.opacity = '0';
+            document.getElementById('hb3').style.transform = 'translateY(-8px) rotate(-45deg)';
+            lucide.createIcons();
+        }
+        function closeMobileMenu() {
+            mobileMenuOpen = false;
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.add('opacity-0', 'pointer-events-none');
+            menu.classList.remove('opacity-100');
+            document.body.style.overflow = '';
+            // Animate X back to hamburger
+            document.getElementById('hb1').style.transform = '';
+            document.getElementById('hb2').style.opacity = '1';
+            document.getElementById('hb3').style.transform = '';
         }
 
         // Apply on load
